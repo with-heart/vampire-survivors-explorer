@@ -41,7 +41,7 @@ export default function Home() {
     <div
       className={`${geistSans.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
     >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-[40ch] flex-col items-stretch py-32 px-16 bg-white dark:bg-black gap-3">
         <input
           value={searchValue}
           onChange={onSearchChange}
@@ -49,7 +49,7 @@ export default function Home() {
         />
 
         {results.length > 0 ?
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 w-full">
             {results.map((entry) => (
               <li key={entry.id} className="flex items-center gap-1">
                 <Icon frameName={entry.frameName} alt={entry.name} size={24} />{' '}
