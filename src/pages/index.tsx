@@ -1,8 +1,10 @@
 import { Icon } from '@/icon'
 import { isValidEntry, nameLocaleCompare } from '@/primary-weapon-entry'
 import * as Weapon from '@/weapon'
+import { Input } from '@base-ui/react'
+import { clsx } from 'clsx'
 import { Geist } from 'next/font/google'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import weaponJson from '../../public/weapon.json'
 
 const geistSans = Geist({
@@ -23,28 +25,27 @@ const useSearch = () => {
     e.name.toLowerCase().includes(value.toLowerCase()),
   )
 
-  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value)
+  const onChange = useCallback((value: string) => {
+    setSearch(value)
   }, [])
 
   return {
-    value,
     results,
     onChange,
   }
 }
 
 export default function Home() {
-  const { value: searchValue, results, onChange: onSearchChange } = useSearch()
+  const { results, onChange: onSearchChange } = useSearch()
 
   return (
     <div
       className={`${geistSans.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
     >
-      <main className="flex min-h-screen w-full max-w-[40ch] flex-col items-stretch py-32 px-16 bg-white dark:bg-black gap-3">
-        <input
-          value={searchValue}
-          onChange={onSearchChange}
+      <main className="flex min-h-screen w-full max-w-[30ch] flex-col items-stretch py-32 px-16 bg-white dark:bg-black gap-3">
+        <Input
+          defaultValue=""
+          onValueChange={onSearchChange}
           className="bg-zinc-950 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-950 px-2 py-1"
         />
 
