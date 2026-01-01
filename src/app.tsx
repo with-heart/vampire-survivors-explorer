@@ -1,17 +1,12 @@
-import { Icon } from '@/icon'
 import { isValidEntry, nameLocaleCompare } from '@/primary-weapon-entry'
-import { PrimaryWeaponEntry } from '@/schema'
 import * as Weapon from '@/weapon'
+import weaponJson from '@/weapon.json'
 import { Input } from '@base-ui/react'
 import { clsx } from 'clsx'
-import { Geist } from 'next/font/google'
-import { ComponentProps, useCallback, useState } from 'react'
-import weaponJson from '../../public/weapon.json'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
+import type { ComponentProps } from 'react'
+import { useCallback, useState } from 'react'
+import { Icon } from './icon'
+import type { PrimaryWeaponEntry } from './schema'
 
 // @ts-expect-error ignore error from automatic json import typing
 const weaponById = Weapon.decodeSync(weaponJson)
@@ -26,8 +21,8 @@ const useSearch = () => {
     e.name.toLowerCase().includes(value.toLowerCase()),
   )
 
-  const onChange = useCallback((value: string) => {
-    setSearch(value)
+  const onChange = useCallback((newValue: string) => {
+    setSearch(newValue)
   }, [])
 
   return {
@@ -36,14 +31,12 @@ const useSearch = () => {
   }
 }
 
-export default function Home() {
+export function App() {
   const { results, onChange: onSearchChange } = useSearch()
 
   return (
-    <div
-      className={`${geistSans.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-[40ch] flex-col items-stretch py-32 px-16 bg-white dark:bg-black gap-3">
+    <div className="app bg-zinc-50 font-sans dark:bg-black">
+      <div className="search">
         <Input
           defaultValue=""
           onValueChange={onSearchChange}
@@ -52,7 +45,13 @@ export default function Home() {
             element?.focus()
           }}
         />
-
+      </div>
+      <header className="header self-center">
+        <h1 className="text-lg text-zinc-700 dark:text-zinc-300">
+          Vampire Survivors Explorer
+        </h1>
+      </header>
+      <aside className="sidebar">
         <ul className="flex flex-col gap-1 w-full">
           {primaryWeaponEntries.map((entry) => (
             <WeaponBox
@@ -66,7 +65,9 @@ export default function Home() {
         {results.length === 0 ?
           <p>No results found</p>
         : undefined}
-      </main>
+      </aside>
+      <main className="main">Main</main>
+      <footer className="footer">Footer</footer>
     </div>
   )
 }

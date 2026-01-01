@@ -1,18 +1,17 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import { tanstackConfig } from '@tanstack/eslint-config'
+import pluginRouter from '@tanstack/eslint-plugin-router'
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
-
-export default eslintConfig;
+export default [
+  {
+    ignores: ['dist/**', '.output/**', '.vinxi/**', '**/routeTree.gen.*'],
+  },
+  ...tanstackConfig,
+  ...pluginRouter.configs['flat/recommended'],
+  {
+    rules: {
+      'import/order': 'off',
+      'import/first': 'off',
+      'import/newline-after-import': 'off',
+    },
+  },
+]
