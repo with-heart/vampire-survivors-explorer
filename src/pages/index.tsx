@@ -4,8 +4,9 @@ import * as Weapon from '@/weapon'
 import { Input } from '@base-ui/react'
 import { clsx } from 'clsx'
 import { Geist } from 'next/font/google'
-import { useCallback, useState } from 'react'
+import { ComponentProps, useCallback, useState } from 'react'
 import weaponJson from '../../public/weapon.json'
+import { PrimaryWeaponEntry, WeaponEntries, WeaponJson } from '@/schema'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,24 +43,47 @@ export default function Home() {
     <div
       className={`${geistSans.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
     >
-      <main className="flex min-h-screen w-full max-w-[30ch] flex-col items-stretch py-32 px-16 bg-white dark:bg-black gap-3">
+      <main className="flex min-h-screen w-full max-w-[40ch] flex-col items-stretch py-32 px-16 bg-white dark:bg-black gap-3">
         <Input
           defaultValue=""
           onValueChange={onSearchChange}
-          className="bg-zinc-950 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-950 px-2 py-1"
+          className="h-10 w-full rounded-md border border-gray-200 pl-3.5 text-base focus:outline-2 focus:-outline-offset-1 focus:outline-blue-800"
         />
 
-        {results.length > 0 ?
-          <ul className="flex flex-col gap-2 w-full">
-            {results.map((entry) => (
-              <li key={entry.id} className="flex items-center gap-1">
-                <Icon frameName={entry.frameName} alt={entry.name} size={24} />{' '}
-                {entry.name}
-              </li>
-            ))}
-          </ul>
-        : <p>No results found</p>}
+        <ul className="flex flex-col gap-2 w-full">
+          {primaryWeaponEntries.map((entry) => (
+            <WeaponBox
+              key={entry.id}
+              entry={entry}
+              isHidden={!results.includes(entry)}
+            />
+          ))}
+        </ul>
+
+        {results.length === 0 ?
+          <p>No results found</p>
+        : undefined}
       </main>
     </div>
+  )
+}
+
+function WeaponBox({
+  entry,
+  isHidden,
+}: {
+  entry: PrimaryWeaponEntry
+  isHidden: boolean
+} & ComponentProps<'li'>) {
+  return (
+    <li
+      className={clsx('flex items-center gap-1 grow p-0.1', {
+        hidden: isHidden,
+      })}
+      tabIndex={0}
+    >
+      <Icon alt="" frameName={entry.frameName} size={24} />
+      {entry.name}
+    </li>
   )
 }
