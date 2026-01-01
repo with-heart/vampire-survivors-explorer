@@ -48,6 +48,9 @@ export default function Home() {
           defaultValue=""
           onValueChange={onSearchChange}
           className="h-10 w-full rounded-md border border-gray-200 pl-3.5 text-base focus:outline-2 focus:-outline-offset-1 focus:outline-blue-800"
+          ref={(element) => {
+            element?.focus()
+          }}
         />
 
         <ul className="flex flex-col gap-1 w-full">
