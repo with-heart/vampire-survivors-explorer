@@ -1,12 +1,12 @@
 import { Icon } from '@/icon'
 import { isValidEntry, nameLocaleCompare } from '@/primary-weapon-entry'
+import { PrimaryWeaponEntry } from '@/schema'
 import * as Weapon from '@/weapon'
 import { Input } from '@base-ui/react'
 import { clsx } from 'clsx'
 import { Geist } from 'next/font/google'
 import { ComponentProps, useCallback, useState } from 'react'
 import weaponJson from '../../public/weapon.json'
-import { PrimaryWeaponEntry, WeaponEntries, WeaponJson } from '@/schema'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -50,7 +50,7 @@ export default function Home() {
           className="h-10 w-full rounded-md border border-gray-200 pl-3.5 text-base focus:outline-2 focus:-outline-offset-1 focus:outline-blue-800"
         />
 
-        <ul className="flex flex-col gap-2 w-full">
+        <ul className="flex flex-col gap-1 w-full">
           {primaryWeaponEntries.map((entry) => (
             <WeaponBox
               key={entry.id}
@@ -77,9 +77,12 @@ function WeaponBox({
 } & ComponentProps<'li'>) {
   return (
     <li
-      className={clsx('flex items-center gap-1 grow p-0.1', {
-        hidden: isHidden,
-      })}
+      className={clsx(
+        'flex items-center gap-1 rounded-sm grow p-1 dark:focus:bg-zinc-800 focus:bg-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100',
+        {
+          hidden: isHidden,
+        },
+      )}
       tabIndex={0}
     >
       <Icon alt="" frameName={entry.frameName} size={24} />
