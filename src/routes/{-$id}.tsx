@@ -2,8 +2,7 @@ import { Icon } from '@/components/icon'
 import { WeaponPage } from '@/components/weapon-page'
 import { isValidEntry, nameLocaleCompare } from '@/primary-weapon-entry'
 import type { PrimaryWeaponEntry } from '@/schema'
-import * as Weapon from '@/weapon'
-import weaponJson from '@/weapon.json'
+import { primaryWeaponEntriesById } from '@/weapon'
 import { Input } from '@base-ui/react'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { clsx } from 'clsx'
@@ -14,10 +13,7 @@ export const Route = createFileRoute('/{-$id}')({
   component: Home,
 })
 
-// @ts-expect-error ignore error from automatic json import typing
-const weaponById = Weapon.decodeSync(weaponJson)
-const primaryWeaponEntries = Object.values(weaponById)
-  .map(Weapon.getPrimaryWeaponEntry)
+const primaryWeaponEntries = Object.values(primaryWeaponEntriesById)
   .filter(isValidEntry)
   .toSorted(nameLocaleCompare)
 
@@ -39,7 +35,7 @@ const useSearch = () => {
 
 function Home() {
   const { id = 'BOCCE' } = Route.useParams()
-  const entry = Weapon.getPrimaryWeaponEntry(weaponById[id])
+  const entry = primaryWeaponEntriesById[id]
   const { results, onChange: onSearchChange } = useSearch()
 
   return (
