@@ -1,4 +1,4 @@
-import { PrimaryWeaponEntry } from './schema'
+import type { PrimaryWeaponEntry } from './schema'
 
 export const hasValidName = (entry: PrimaryWeaponEntry): boolean =>
   entry.name.trim().length !== 0 && entry.name !== '.' && entry.name !== '-'
