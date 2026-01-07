@@ -1,4 +1,4 @@
-import { Image } from '@unpic/react'
+import { Image } from '@unpic/react';
 
 export function Icon(props: { alt: string; frameName: string; size: number }) {
   return (

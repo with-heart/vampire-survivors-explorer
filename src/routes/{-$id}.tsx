@@ -1,4 +1,5 @@
-import { Icon } from '@/icon'
+import { Icon } from '@/components/icon'
+import { WeaponPage } from '@/components/weapon-page'
 import { isValidEntry, nameLocaleCompare } from '@/primary-weapon-entry'
 import type { PrimaryWeaponEntry } from '@/schema'
 import * as Weapon from '@/weapon'
@@ -8,6 +9,10 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { clsx } from 'clsx'
 import type { ComponentProps } from 'react'
 import { useCallback, useState } from 'react'
+
+export const Route = createFileRoute('/{-$id}')({
+  component: Home,
+})
 
 // @ts-expect-error ignore error from automatic json import typing
 const weaponById = Weapon.decodeSync(weaponJson)
@@ -32,14 +37,9 @@ const useSearch = () => {
   }
 }
 
-export const Route = createFileRoute('/{-$id}')({
-  component: Home,
-})
-
 function Home() {
   const { id = 'BOCCE' } = Route.useParams()
-  const entries = weaponById[id]
-  const entry = Weapon.getPrimaryWeaponEntry(entries)
+  const entry = Weapon.getPrimaryWeaponEntry(weaponById[id])
   const { results, onChange: onSearchChange } = useSearch()
 
   return (
@@ -59,7 +59,7 @@ function Home() {
       <aside className="sidebar">
         <ul className="flex flex-col gap-1 w-full">
           {primaryWeaponEntries.map((primaryEntry) => (
-            <WeaponBox
+            <WeaponMenuItem
               key={primaryEntry.id}
               entry={primaryEntry}
               isHidden={!results.includes(primaryEntry)}
@@ -71,31 +71,13 @@ function Home() {
           <p>No results found</p>
         : undefined}
       </aside>
-      <main className="main flex flex-col gap-3">
-        <header className="flex gap-2 items-center">
-          <Icon alt="" frameName={entry.frameName} size={24 * 2} />
-          <h1 className="text-3xl font-bold text-zinc-700 dark:text-zinc-300">
-            {entry.name}
-          </h1>
-        </header>
-
-        <div>
-          <p>Rarity: {entry.rarity}</p>
-          {(entry.description?.length ?? 0) > 2 ?
-            <p className="italic">{entry.description}</p>
-          : undefined}
-        </div>
-
-        <pre>
-          <code>{JSON.stringify(entry, null, 2)}</code>
-        </pre>
-      </main>
+      <WeaponPage entry={entry} />
       <footer className="footer">Footer</footer>
     </div>
   )
 }
 
-function WeaponBox({
+function WeaponMenuItem({
   entry,
   isHidden,
 }: {
