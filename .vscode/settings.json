@@ -2,5 +2,6 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always",
     "source.fixAll.eslint": "always"
-  }
+  },
+  "tailwindCSS.classFunctions": ["clsx"]
 }
