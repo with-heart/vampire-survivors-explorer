@@ -1,5 +1,6 @@
 import { tanstackConfig } from '@tanstack/eslint-config'
 import pluginRouter from '@tanstack/eslint-plugin-router'
+import pluginNeverthrow from 'eslint-plugin-neverthrow'
 
 export default [
   {
@@ -7,6 +8,7 @@ export default [
   },
   ...tanstackConfig,
   ...pluginRouter.configs['flat/recommended'],
+  ...pluginNeverthrow.configs['recommended'],
   {
     rules: {
       'import/order': 'off',

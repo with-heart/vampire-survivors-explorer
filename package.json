@@ -22,6 +22,7 @@
     "@unpic/react": "^1.0.2",
     "clsx": "^2.1.1",
     "effect": "^3.19.13",
+    "neverthrow": "^8.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -38,6 +39,7 @@
     "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "eslint-plugin-neverthrow": "^1.1.4",
     "prettier": "^3.7.4",
     "tailwindcss": "^4.1.18",
     "typescript": "^5",
