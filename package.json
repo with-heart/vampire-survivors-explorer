@@ -12,7 +12,9 @@
     "lint": "eslint",
     "type-check": "tsc --noEmit",
     "import:weapon-json": "bun scripts/import-weapon-json.ts",
-    "import:images": "bun scripts/import-images.ts"
+    "import:images": "bun scripts/import-images.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
@@ -27,6 +29,11 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/react-vite": "^10.1.11",
+    "@storybook/addon-vitest": "^10.1.11",
+    "@storybook/addon-a11y": "^10.1.11",
+    "@storybook/addon-docs": "^10.1.11",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/eslint-config": "^0.3.4",
     "@tanstack/eslint-plugin-router": "^1.141.0",
@@ -35,17 +42,23 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/browser-playwright": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.16",
     "babel-plugin-react-compiler": "1.0.0",
     "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "eslint-plugin-neverthrow": "^1.1.4",
+    "eslint-plugin-storybook": "^10.1.11",
+    "playwright": "^1.57.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "storybook": "^10.1.11",
     "tailwindcss": "^4.1.18",
     "typescript": "^5",
     "vite": "^7.3.0",
-    "vite-tsconfig-paths": "^6.0.3"
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "^4.0.16"
   },
   "ignoreScripts": [
     "sharp",
