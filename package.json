@@ -10,6 +10,7 @@
     "build": "vite build",
     "start": "node .output/server/index.mjs",
     "lint": "eslint",
+    "type-check": "tsc --noEmit",
     "import:weapon-json": "bun scripts/import-weapon-json.ts",
     "import:images": "bun scripts/import-images.ts"
   },
