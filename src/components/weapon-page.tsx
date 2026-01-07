@@ -1,11 +1,13 @@
 import { Icon } from '@/components/icon'
 import type { PrimaryWeaponEntry } from '@/schema'
 import { primaryWeaponEntriesById } from '@/weapon'
+import { clsx } from 'clsx'
+import { Sprite } from './sprite'
 
 export function WeaponPage({ entry }: { entry: PrimaryWeaponEntry }) {
   return (
-    <main className="main flex flex-col gap-4 px-2">
-      <header className="flex gap-2 items-center">
+    <main className="main mx-1 flex flex-col gap-4 px-2">
+      <header className="flex items-center gap-2">
         <Icon alt="" frameName={entry.frameName} size={24 * 2} />
         <h1 className="text-3xl font-bold text-zinc-700 dark:text-zinc-300">
           {entry.name}
@@ -26,6 +28,48 @@ export function WeaponPage({ entry }: { entry: PrimaryWeaponEntry }) {
 }
 
 function EvolutionInfo({ entry }: { entry: PrimaryWeaponEntry }) {
+  if (entry.isEvolution && entry.evolvesFrom) {
+    const items = [
+      ...entry.evolvesFrom.map((id) => primaryWeaponEntriesById[id]),
+      entry,
+    ]
+
+    return (
+      <ul className="flex items-center gap-1 px-2 text-3xl">
+        {items.map((item, i) => {
+          const isEntry = item === entry
+          const isFirst = i === 0
+          const isLast = i === items.length - 1
+
+          return (
+            <li key={item.id} className="flex items-center">
+              {!isFirst ?
+                <span className="mx-2" aria-hidden>
+                  {isLast ? '=' : '+'}
+                </span>
+              : undefined}
+
+              <span
+                className={clsx('relative inline-flex', {
+                  "before:content-[''] after:pointer-events-none after:absolute after:-inset-1.5 after:z-0 after:rounded-full after:bg-yellow-200 after:opacity-60":
+                    isEntry,
+                })}
+              >
+                <span className="z-10">
+                  <Sprite
+                    alt={item.name}
+                    frameName={item.frameName}
+                    size={36}
+                  />
+                </span>
+              </span>
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+
   if (entry.isEvolution && entry.evolvesFrom) {
     return (
       <div className="flex flex-col gap-3">
@@ -77,6 +121,37 @@ function EvolutionInfo({ entry }: { entry: PrimaryWeaponEntry }) {
           </div>
         : undefined}
       </div>
+    )
+  }
+
+  if (entry.evoInto && entry.evoSynergy) {
+    const evoInto = primaryWeaponEntriesById[entry.evoInto]
+    const items = [
+      entry,
+      ...entry.evoSynergy.map((id) => primaryWeaponEntriesById[id]),
+      evoInto,
+    ]
+
+    return (
+      <ul className="flex items-center gap-1 px-2 text-3xl">
+        {items.map((item) => {
+          const className = clsx(
+            'relative flex items-center',
+            "before:content-['+'] before:mx-2 first:before:content-none last:before:content-['=']",
+            {
+              ['after:content-[""] after:absolute after:-inset-1.5 after:rounded-full after:bg-yellow-200 after:opacity-60 after:z-0 ']:
+                item === entry,
+            },
+          )
+          return (
+            <li key={item.id} className={className}>
+              <span className="z-10">
+                <Sprite alt={item.name} frameName={item.frameName} size={36} />
+              </span>
+            </li>
+          )
+        })}
+      </ul>
     )
   }
 
